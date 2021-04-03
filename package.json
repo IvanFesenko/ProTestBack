@@ -1,0 +1,38 @@
+{
+  "name": "protestback",
+  "version": "1.0.0",
+  "description": "proTest BackEnd",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IvanFesenko/ProTestBack.git"
+  },
+  "author": "Nikita Samoilenko <inikita546@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IvanFesenko/ProTestBack/issues"
+  },
+  "homepage": "https://github.com/IvanFesenko/ProTestBack#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.7",
+    "swagger-ui-express": "^4.1.6"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "gravatar": "^1.8.1",
+    "joi": "^17.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "passport": "^0.4.1"
+  }
+}
