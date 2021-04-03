@@ -11,6 +11,7 @@ class technicalDataControllers {
                 questionData,
                 getRandomNumber,
             );
+            console.log(responseData);
 
             res.status(httpCode.OK).json({
                 status: httpCode.OK,
@@ -30,8 +31,7 @@ class technicalDataControllers {
             res.status(httpCode.OK).json({
                 status: httpCode.OK,
                 type: 'technical questions',
-                quantity: responseData.length,
-                requestBody: responseData,
+
             });
         } catch (err) {
             console.log(err.message);
