@@ -1,12 +1,12 @@
-const path = require("path");
-const fs = require("fs");
-const express = require("express");
-const dotenv = require("dotenv");
-const morgan = require("morgan");
-const cors = require("cors");
-const mongoose = require("mongoose");
+const path = require('path');
+const fs = require('fs');
+const express = require('express');
+const dotenv = require('dotenv');
+const morgan = require('morgan');
+const cors = require('cors');
+const mongoose = require('mongoose');
 
-const userRouter = require("./users/user.router");
+const userRouter = require('./models/users/user.router');
 
 dotenv.config();
 
@@ -33,30 +33,33 @@ class Server {
         this.app.use(express.json());
 
         this.app.use(
-            morgan("dev", {
+            morgan('dev', {
                 skip: function (req, res) {
                     return res.statusCode < 400;
                 },
-            })
+            }),
         );
 
         // log all requests to access.log
         this.app.use(
-            morgan("common", {
-                stream: fs.createWriteStream(path.join(__dirname, "access.log"), {
-                    flags: "a",
-                }),
-            })
+            morgan('common', {
+                stream: fs.createWriteStream(
+                    path.join(__dirname, 'access.log'),
+                    {
+                        flags: 'a',
+                    },
+                ),
+            }),
         );
         this.app.use(
             cors({
-                origin: "http://localhost:3000",
-            })
+                origin: 'http://localhost:3000',
+            }),
         );
     }
 
     _initRoutes() {
-        this.app.use("/", userRouter);
+        this.app.use('/', userRouter);
     }
 
     async _initDB() {
@@ -65,7 +68,7 @@ class Server {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
             });
-            console.log("Database connection successful");
+            console.log('Database connection successful');
         } catch (err) {
             console.log(err);
             process.exit(1);
@@ -73,7 +76,7 @@ class Server {
     }
 
     _startListening() {
-        this.app.listen(this.PORT, (err) => {
+        this.app.listen(this.PORT, err => {
             if (err) {
                 return console.log(err);
             }

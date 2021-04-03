@@ -1,3 +1,3 @@
-const { proTestServer } = require("./Server");
+const { proTestServer } = require('./Server');
 
 proTestServer.start();
