@@ -1,1 +1,14 @@
 ::1 - - [03/Apr/2021:08:29:33 +0000] "GET /testEndPoint HTTP/1.1" 200 41
+::1 - - [03/Apr/2021:17:30:48 +0000] "GET /tests/technical HTTP/1.1" 200 18
+::1 - - [03/Apr/2021:17:42:33 +0000] "GET /tests/technical HTTP/1.1" - -
+::1 - - [03/Apr/2021:17:43:25 +0000] "GET /tests/technical HTTP/1.1" 200 31
+::1 - - [03/Apr/2021:17:43:56 +0000] "GET /tests/technical HTTP/1.1" 200 33
+::1 - - [03/Apr/2021:17:44:22 +0000] "GET /tests/technical HTTP/1.1" 200 33
+::1 - - [03/Apr/2021:17:44:24 +0000] "GET /tests/technical HTTP/1.1" 200 33
+::1 - - [03/Apr/2021:17:44:25 +0000] "GET /tests/technical HTTP/1.1" 200 33
+::1 - - [03/Apr/2021:17:46:09 +0000] "GET /tests/technical HTTP/1.1" - -
+::1 - - [03/Apr/2021:17:49:31 +0000] "GET /tests/technical HTTP/1.1" 200 31
+::1 - - [03/Apr/2021:17:50:01 +0000] "GET /tests/technical HTTP/1.1" 200 31
+::1 - - [03/Apr/2021:17:50:02 +0000] "GET /tests/technical HTTP/1.1" 200 31
+::1 - - [03/Apr/2021:17:51:18 +0000] "GET /tests/technical HTTP/1.1" 200 31
+::1 - - [03/Apr/2021:17:51:20 +0000] "GET /tests/technical HTTP/1.1" 200 31

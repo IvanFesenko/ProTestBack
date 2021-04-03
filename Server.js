@@ -5,8 +5,8 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
 const userRouter = require('./models/users/user.router');
+const technicalDataRouter = require('./models/technicalData/technicalData.router');
 
 dotenv.config();
 
@@ -31,10 +31,9 @@ class Server {
 
     _initMiddleWares() {
         this.app.use(express.json());
-
         this.app.use(
             morgan('dev', {
-                skip: function (req, res) {
+                skip: function (_req, res) {
                     return res.statusCode < 400;
                 },
             }),
@@ -60,6 +59,7 @@ class Server {
 
     _initRoutes() {
         this.app.use('/', userRouter);
+        this.app.use('/tests', technicalDataRouter);
     }
 
     async _initDB() {
