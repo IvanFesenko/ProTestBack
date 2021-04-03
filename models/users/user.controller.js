@@ -1,4 +1,4 @@
-const User = require("./User");
+const User = require('./User');
 
 class UsersController {
     constructor() {}
@@ -8,9 +8,9 @@ class UsersController {
 
     async _testController(req, res, next) {
         try {
-            console.log("hello");
+            console.log('hello');
             res.json({
-                message: "hello this is test endPoint",
+                message: 'hello this is test endPoint',
             }).status(200);
         } catch (err) {
             console.log(err);
