@@ -1,1 +1,2 @@
 ::1 - - [03/Apr/2021:08:29:33 +0000] "GET /testEndPoint HTTP/1.1" 200 41
+::1 - - [03/Apr/2021:20:31:30 +0000] "POST /registration HTTP/1.1" 201 136

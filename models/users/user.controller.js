@@ -1,19 +1,35 @@
+const bcrypt = require('bcrypt');
+
 const User = require('./User');
 
 class UsersController {
     constructor() {}
-    get testController() {
-        return this._testController.bind(this);
+    get registration() {
+        return this._registration.bind(this);
     }
 
-    async _testController(req, res, next) {
+    async _registration(req, res, next) {
         try {
-            console.log('hello');
+            const {
+                body: { password },
+            } = req;
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            const data = await User.create({
+                ...req.body,
+                password: hashedPassword,
+            });
+
             res.json({
-                message: 'hello this is test endPoint',
-            }).status(200);
+                email: data.email,
+                name: data.name,
+                avatarURL: data.avatarURL,
+            }).status(201);
         } catch (err) {
-            console.log(err);
+            if (err.code === 11000) {
+                return res.status(400).send('Email is duplicated');
+            }
+            next(err);
         }
     }
 }
