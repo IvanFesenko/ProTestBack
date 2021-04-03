@@ -78,3 +78,15 @@
 ::1 - - [03/Apr/2021:19:25:17 +0000] "GET /tests/technical HTTP/1.1" 200 5761
 ::1 - - [03/Apr/2021:19:25:21 +0000] "GET /tests/technical HTTP/1.1" 200 4349
 ::1 - - [03/Apr/2021:19:25:37 +0000] "GET /tests/technical HTTP/1.1" 200 4789
+::1 - - [03/Apr/2021:19:45:41 +0000] "GET /tests/technical HTTP/1.1" 200 4616
+::1 - - [03/Apr/2021:20:01:33 +0000] "GET /tests/theoretical HTTP/1.1" 404 156
+::1 - - [03/Apr/2021:20:03:47 +0000] "GET /tests/theoretical HTTP/1.1" 404 156
+::1 - - [03/Apr/2021:20:04:17 +0000] "GET /tests/theoretical HTTP/1.1" 404 156
+::1 - - [03/Apr/2021:20:08:21 +0000] "GET /tests/theoretical HTTP/1.1" 404 156
+::1 - - [03/Apr/2021:20:08:23 +0000] "GET /tests/theoretical HTTP/1.1" 404 156
+::1 - - [03/Apr/2021:20:08:52 +0000] "GET /tests/theoretical HTTP/1.1" 200 3573
+::1 - - [03/Apr/2021:20:08:54 +0000] "GET /tests/theoretical HTTP/1.1" 200 4731
+::1 - - [03/Apr/2021:20:09:29 +0000] "GET /tests/theoretical HTTP/1.1" 200 3830
+::1 - - [03/Apr/2021:20:09:42 +0000] "GET /tests/theoretical HTTP/1.1" 200 3144
+::1 - - [03/Apr/2021:20:09:47 +0000] "GET /tests/theoretical HTTP/1.1" 200 4007
+::1 - - [03/Apr/2021:20:09:48 +0000] "GET /tests/theoretical HTTP/1.1" 200 3775

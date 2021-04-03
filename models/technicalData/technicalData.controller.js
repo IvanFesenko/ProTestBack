@@ -9,7 +9,6 @@ class technicalDataControllers {
     getTests = async (_req, res) => {
         try {
             const questionData = await TechnicalData.find({});
-
             const responseData = getRandomQuestions(
                 questionData,
                 getRandomNumber,
@@ -17,7 +16,8 @@ class technicalDataControllers {
 
             res.status(httpCode.OK).json({
                 status: httpCode.OK,
-                message: responseData.length,
+                type: 'technical questions',
+                quantity: responseData.length,
                 requestBody: responseData,
             });
         } catch (error) {

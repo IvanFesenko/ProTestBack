@@ -7,6 +7,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const userRouter = require('./models/users/user.router');
 const technicalDataRouter = require('./models/technicalData/technicalData.router');
+const theoreticalDataRouter = require('./models/theoreticalData/theoreticalData.router');
 
 dotenv.config();
 
@@ -60,6 +61,7 @@ class Server {
     _initRoutes() {
         this.app.use('/', userRouter);
         this.app.use('/tests', technicalDataRouter);
+        this.app.use('/tests', theoreticalDataRouter);
     }
 
     async _initDB() {
