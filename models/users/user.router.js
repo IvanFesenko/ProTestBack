@@ -8,6 +8,7 @@ const {
   registrationValidateSchema,
   loginUserValidateSchema,
 } = require('../../helpers/validateSchemas.js');
+const authorizeUser = require('../../helpers/authorizeUser.js');
 
 /**
  * @swagger
@@ -151,5 +152,7 @@ userRouter.post(
   validate(loginUserValidateSchema),
   userController.loginUser,
 );
+
+userRouter.post('/logout', authorizeUser, userController.logoutUser);
 
 module.exports = userRouter;
