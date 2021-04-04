@@ -6,6 +6,12 @@ const registrationValidateSchema = Joi.object({
   name: Joi.string().required(),
 });
 
+const loginUserValidateSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+  token: Joi.string(),
+});
+
 const technicalAnswerValidateSchema = Joi.object().pattern(
   Joi.string(),
   Joi.string(),
@@ -14,4 +20,5 @@ const technicalAnswerValidateSchema = Joi.object().pattern(
 module.exports = {
   registrationValidateSchema,
   technicalAnswerValidateSchema,
+  loginUserValidateSchema,
 };
