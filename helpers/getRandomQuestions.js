@@ -1,8 +1,8 @@
-const getRandomQuestions = (data, maxNumber) => {
+const getRandomQuestions = (data, randomFn) => {
     const responseData = [];
 
     do {
-        const randomNumber = maxNumber(data.length);
+        const randomNumber = randomFn(data.length);
         responseData.map(item => {
             if (item._id === data[randomNumber]._id) return;
         });
