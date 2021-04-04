@@ -5,7 +5,7 @@ const getRandomQuestions = require('../../helpers/getRandomQuestions');
 const httpCode = require('../../constants/httpCode');
 
 class TechnicalDataControllers {
-  getTests = async (_req, res) => {
+  getTests = async (_req, res, next) => {
     try {
       const questionData = await TechnicalData.find({});
       const responseData = getRandomQuestions(questionData, getRandomNumber);
@@ -17,11 +17,14 @@ class TechnicalDataControllers {
         requestBody: responseData,
       });
     } catch (err) {
-      console.log(err.message);
+      next(err.message);
+      res.status(httpCode.NOT_FOUND).json({
+        message: err.message,
+      });
     }
   };
 
-  checkAnswer = async (req, res) => {
+  checkAnswer = async (req, res, next) => {
     const answers = req.body;
     const answersId = Object.keys(answers).map(id =>
       mongoose.Types.ObjectId(`${id}`),
@@ -33,8 +36,6 @@ class TechnicalDataControllers {
         _id: { $in: answersId },
       });
 
-      console.log(questions);
-
       for (let i = 0; i < 3; i++) {
         responseData.push({
           _id: questions[i]._id,
@@ -45,16 +46,12 @@ class TechnicalDataControllers {
 
       res.status(httpCode.OK).json({
         status: httpCode.OK,
-        type: 'technical questions',
-        body: responseData,
+        type: 'technical answers',
+        quantity: responseData.length,
+        requestBody: responseData,
       });
     } catch (err) {
-      console.log(err.message);
-
-      //todo delete before deploy
-      res.json({
-        error: err.message,
-      });
+      next(err.message);
     }
   };
 }
