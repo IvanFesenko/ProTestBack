@@ -18,6 +18,7 @@ class TechnicalDataControllers {
       });
     } catch (err) {
       next(err.message);
+      //todo: delete before public
       res.status(httpCode.NOT_FOUND).json({
         message: err.message,
       });
@@ -52,6 +53,10 @@ class TechnicalDataControllers {
       });
     } catch (err) {
       next(err.message);
+      //todo: delete before public
+      res.status(httpCode.NOT_FOUND).json({
+        message: err.message,
+      });
     }
   };
 }
