@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 
 const User = require('./User');
+const httpCode = require('../../constants/httpCode');
 
 class UsersController {
   get registration() {
@@ -26,14 +27,14 @@ class UsersController {
           name: data.name,
           avatarURL: data.avatarURL,
         })
-        .status(201);
+        .status(httpCode.CREATED);
     } catch (err) {
       if (err.code === 11000) {
         return res
           .json({
             message: 'Email is duplicated',
           })
-          .status(400);
+          .status(httpCode.BAD_REQUEST);
       }
       next(err);
     }
