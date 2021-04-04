@@ -3,28 +3,23 @@ const getRandomNumber = require('../../helpers/getRandomNumber');
 const getRandomQuestions = require('../../helpers/getRandomQuestions');
 const httpCode = require('../../constants/httpCode');
 
-class theoreticalDataControllers {
-    constructor() {}
+class TheoreticalDataControllers {
+  getTests = async (_req, res) => {
+    try {
+      const questionData = await TheoreticalData.find({});
+      const responseData = getRandomQuestions(questionData, getRandomNumber);
 
-    getTests = async (_req, res) => {
-        try {
-            const questionData = await TheoreticalData.find({});
-            const responseData = getRandomQuestions(
-                questionData,
-                getRandomNumber,
-            );
-
-            res.status(httpCode.OK).json({
-                status: httpCode.OK,
-                type: 'theoretical questions',
-                quantity: responseData.length,
-                requestBody: responseData,
-            });
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
+      res.status(httpCode.OK).json({
+        status: httpCode.OK,
+        type: 'theoretical questions',
+        quantity: responseData.length,
+        requestBody: responseData,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 }
 
-const theoreticalDataController = new theoreticalDataControllers();
+const theoreticalDataController = new TheoreticalDataControllers();
 module.exports = theoreticalDataController;
