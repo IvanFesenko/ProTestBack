@@ -65,7 +65,9 @@ class UsersController {
       );
 
       if (!passwordCompareResult) {
-        return res.status(httpCode.BAD_REQUEST).send('Authentication error');
+        return res
+          .status(httpCode.BAD_REQUEST)
+          .send('Authentication is failed');
       }
 
       const token = await jwt.sign(
