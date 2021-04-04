@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const swaggerUi = require('swagger-ui-express');
 
 const userRouter = require('./models/users/user.router');
 
@@ -59,6 +60,11 @@ class Server {
     }
 
     _initRoutes() {
+        this.app.use(
+            '/api-docs',
+            swaggerUi.serve,
+            swaggerUi.setup(swaggerDocs),
+        );
         this.app.use('/', userRouter);
     }
 
