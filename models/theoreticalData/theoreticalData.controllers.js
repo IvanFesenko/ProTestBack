@@ -3,9 +3,7 @@ const getRandomNumber = require('../../helpers/getRandomNumber');
 const getRandomQuestions = require('../../helpers/getRandomQuestions');
 const httpCode = require('../../constants/httpCode');
 
-class theoreticalDataControllers {
-    constructor() {}
-
+class TheoreticalDataControllers {
     getTests = async (_req, res) => {
         try {
             const questionData = await TheoreticalData.find({});
@@ -26,5 +24,5 @@ class theoreticalDataControllers {
     };
 }
 
-const theoreticalDataController = new theoreticalDataControllers();
+const theoreticalDataController = new TheoreticalDataControllers();
 module.exports = theoreticalDataController;

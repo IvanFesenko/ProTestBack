@@ -3,8 +3,8 @@ const getRandomNumber = require('../../helpers/getRandomNumber');
 const getRandomQuestions = require('../../helpers/getRandomQuestions');
 const httpCode = require('../../constants/httpCode');
 
-class technicalDataControllers {
-    getTests = async (_req, res) => {
+class TechnicalDataControllers {
+    getTests = async (_req, res, next) => {
         try {
             const questionData = await TechnicalData.find({});
             const responseData = getRandomQuestions(
@@ -20,24 +20,23 @@ class technicalDataControllers {
                 requestBody: responseData,
             });
         } catch (err) {
-            console.log(err.message);
+            next(err.message);
         }
     };
 
-    checkAnswer = async (req, res) => {
+    checkAnswer = async (req, res, next) => {
         try {
             console.log(req.body);
 
             res.status(httpCode.OK).json({
                 status: httpCode.OK,
                 type: 'technical questions',
-
             });
         } catch (err) {
-            console.log(err.message);
+            next(err.message);
         }
     };
 }
 
-const technicalDataController = new technicalDataControllers();
+const technicalDataController = new TechnicalDataControllers();
 module.exports = technicalDataController;
