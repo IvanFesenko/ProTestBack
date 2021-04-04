@@ -1,7 +1,7 @@
 const comparisonOfQuestionsAndAnswers = (questions, answers) => {
   const responseData = [];
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < answers.length; i++) {
     responseData.push({
       _id: questions[i]._id,
       question: answers[questions[i]._id],
