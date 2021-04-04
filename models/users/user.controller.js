@@ -21,6 +21,7 @@ class UsersController {
 
       res
         .json({
+          id: data._id,
           email: data.email,
           name: data.name,
           avatarURL: data.avatarURL,
