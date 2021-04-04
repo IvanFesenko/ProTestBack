@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
 const TechnicalData = require('./TechnicalData');
 const getRandomNumber = require('../../helpers/getRandomNumber');
 const getRandomQuestions = require('../../helpers/getRandomQuestions');
 const httpCode = require('../../constants/httpCode');
+const createArrayFromAnswersId = require('../../helpers/createArrayFromAnswersId');
 
 class TechnicalDataControllers {
   getTests = async (_req, res, next) => {
@@ -27,10 +27,8 @@ class TechnicalDataControllers {
 
   checkAnswer = async (req, res, next) => {
     const answers = req.body;
-    const answersId = Object.keys(answers).map(id =>
-      mongoose.Types.ObjectId(`${id}`),
-    );
-    let responseData = [];
+    const responseData = [];
+    const answersId = createArrayFromAnswersId(answers);
 
     try {
       const questions = await TechnicalData.find({

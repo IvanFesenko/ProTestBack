@@ -3,8 +3,8 @@ const technicalDataRouter = Router();
 
 const technicalDataController = require('./technicalData.controller');
 
-technicalDataRouter.get('/technical', technicalDataController.getTests);
-
-technicalDataRouter.post('/technical', technicalDataController.checkAnswer);
+technicalDataRouter
+  .get('/technical', technicalDataController.getTests)
+  .post('/technical', technicalDataController.checkAnswer);
 
 module.exports = technicalDataRouter;
