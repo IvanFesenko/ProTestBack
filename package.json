@@ -20,6 +20,7 @@
   "homepage": "https://github.com/IvanFesenko/ProTestBack#readme",
   "devDependencies": {
     "nodemon": "^2.0.7",
+    "swagger-jsdoc": "6.1.0",
     "swagger-ui-express": "^4.1.6"
   },
   "dependencies": {
