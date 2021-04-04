@@ -28,7 +28,6 @@ class TechnicalDataControllers {
 
   checkAnswer = async (req, res, next) => {
     const answers = req.body;
-
     const answersId = createArrayFromAnswersId(answers);
 
     try {

@@ -28,7 +28,6 @@ class TheoreticalDataControllers {
 
   checkAnswer = async (req, res, next) => {
     const answers = req.body;
-    const responseData = [];
     const answersId = createArrayFromAnswersId(answers);
 
     try {
