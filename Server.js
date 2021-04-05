@@ -28,6 +28,7 @@ class Server {
     this._initRoutes();
     await this._initDB();
     this._startListening();
+    this._initErrors();
   }
 
   _initServer() {
@@ -86,6 +87,16 @@ class Server {
       }
 
       console.log(`Started listening server on ${this.PORT}`);
+    });
+  }
+
+  _initErrors() {
+    this.app.use((req, res) => {
+      res.status(404).json({ message: 'Not found' });
+    });
+
+    this.app.use((err, req, res, next) => {
+      res.status(err.status || 500).json({ message: err.message });
     });
   }
 }
