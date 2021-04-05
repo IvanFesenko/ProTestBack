@@ -12,7 +12,13 @@ const loginUserValidateSchema = Joi.object({
   token: Joi.string(),
 });
 
+const technicalAnswerValidateSchema = Joi.object().pattern(
+  Joi.string(),
+  Joi.string(),
+);
+
 module.exports = {
   registrationValidateSchema,
+  technicalAnswerValidateSchema,
   loginUserValidateSchema,
 };

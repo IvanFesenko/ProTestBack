@@ -3,6 +3,8 @@ const TechnicalData = require('./TechnicalData');
 const getRandomNumber = require('../../helpers/getRandomNumber');
 const getRandomQuestions = require('../../helpers/getRandomQuestions');
 const httpCode = require('../../constants/httpCode');
+const createArrayFromAnswersId = require('../../helpers/createArrayFromAnswersId');
+const comparisonOfQuestionsAndAnswers = require('../../helpers/comparisonOfQuestionsAndAnswers');
 
 class TechnicalDataControllers {
   getTests = async (_req, res, next) => {
@@ -27,23 +29,17 @@ class TechnicalDataControllers {
 
   checkAnswer = async (req, res, next) => {
     const answers = req.body;
-    const answersId = Object.keys(answers).map(id =>
-      mongoose.Types.ObjectId(`${id}`),
-    );
-    let responseData = [];
+
+    const answersId = createArrayFromAnswersId(answers);
+
 
     try {
       const questions = await TechnicalData.find({
         _id: { $in: answersId },
       });
 
-      for (let i = 0; i < 3; i++) {
-        responseData.push({
-          _id: questions[i]._id,
-          question: answers[questions[i]._id],
-          userAnswerIs: questions[i].rightAnswer === answers[questions[i]._id],
-        });
-      }
+
+      const responseData = comparisonOfQuestionsAndAnswers(questions, answers);
 
       res.status(httpCode.OK).json({
         status: httpCode.OK,
