@@ -7,7 +7,30 @@ const {
   technicalAnswerValidateSchema,
 } = require('../../helpers/validateSchemas.js');
 
+/**
+ * @swagger
+ * tags:
+ *   name: TechnicalTests
+ *   description: Get questions and post answers
+ */
+
+/**
+ * @swagger
+ * /tests/technical:
+ *    get:
+ *     summary: get technical tests
+ *     tags: [TechnicalTests]
+ *     responses:
+ *      200:
+ *         description: OK
+ *      401:
+ *         description: Unauthorized
+ *      403:
+ *          description: Forbidden
+ */
+
 technicalDataRouter.get('/technical', technicalDataController.getTests);
+
 technicalDataRouter.post(
   '/technical',
   validateAnswer(technicalAnswerValidateSchema),

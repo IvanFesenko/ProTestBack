@@ -14,7 +14,11 @@ const options = {
       },
     ],
   },
-  apis: ['./models/users/user.router.js'], //path here need to be relative Server.js file
+  apis: [
+    './models/users/user.router.js',
+    './models/technicalData/technicalData.router.js',
+    './models/technicalData/theoreticalData.router.js',
+  ], //path here need to be relative Server.js file
 };
 
 const swaggerSpecs = swaggerJsDoc(options);
