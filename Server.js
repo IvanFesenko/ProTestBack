@@ -6,32 +6,14 @@ const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const swaggerUI = require('swagger-ui-express');
-const swaggerJsDoc = require('swagger-jsdoc');
 
 const userRouter = require('./models/users/user.router');
 const technicalDataRouter = require('./models/technicalData/technicalData.router');
 const theoreticalDataRouter = require('./models/theoreticalData/theoreticalData.router');
 
+const swaggerSpecs = require('./helpers/swaggerSpecs');
+
 dotenv.config();
-
-const options = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'proTest API',
-      version: '1.0.0',
-      description: 'proTest API docs',
-    },
-    servers: [
-      {
-        url: 'http://localhost:5050',
-      },
-    ],
-  },
-  apis: ['./models/users/user.router.js'],
-};
-
-const specs = swaggerJsDoc(options);
 
 class Server {
   constructor() {
@@ -79,7 +61,7 @@ class Server {
   }
 
   _initRoutes() {
-    this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
+    this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
     this.app.use('/', userRouter);
     this.app.use('/tests', technicalDataRouter);
     this.app.use('/tests', theoreticalDataRouter);
