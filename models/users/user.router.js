@@ -8,6 +8,7 @@ const {
   registrationValidateSchema,
   loginUserValidateSchema,
 } = require('../../helpers/validateSchemas.js');
+const authorizeUser = require('../../helpers/authorizeUser.js');
 
 /**
  * @swagger
@@ -151,5 +152,22 @@ userRouter.post(
   validate(loginUserValidateSchema),
   userController.loginUser,
 );
+
+/**
+ * @swagger
+ * /logout:
+ *   post:
+ *    description: Standard Authorization header using the Bearer scheme example "Bearer {token}"
+ *    tags: [Users]
+ *    responses:
+ *     204:
+ *         description: logout
+ *     401:
+ *         description: Unauthorized
+ *     403:
+ *          description: Forbidden
+ */
+
+userRouter.post('/logout', authorizeUser, userController.logoutUser);
 
 module.exports = userRouter;

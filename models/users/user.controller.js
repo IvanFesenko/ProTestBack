@@ -13,6 +13,10 @@ class UsersController {
     return this._loginUser.bind(this);
   }
 
+  get logoutUser() {
+    return this._logoutUser.bind(this);
+  }
+
   async _registration(req, res, next) {
     try {
       const {
@@ -85,6 +89,17 @@ class UsersController {
           name: user.name,
         },
       });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async _logoutUser(req, res, next) {
+    try {
+      const userId = req.user._id;
+      await User.findUserByIdAndUpdate(userId, { token: null });
+
+      res.status(httpCode.NO_CONTENT).send();
     } catch (err) {
       next(err);
     }
