@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const TechnicalData = require('./TechnicalData');
 const getRandomNumber = require('../../helpers/getRandomNumber');
 const getRandomQuestions = require('../../helpers/getRandomQuestions');
@@ -28,12 +29,15 @@ class TechnicalDataControllers {
 
   checkAnswer = async (req, res, next) => {
     const answers = req.body;
+
     const answersId = createArrayFromAnswersId(answers);
+
 
     try {
       const questions = await TechnicalData.find({
         _id: { $in: answersId },
       });
+
 
       const responseData = comparisonOfQuestionsAndAnswers(questions, answers);
 

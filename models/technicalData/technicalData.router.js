@@ -14,4 +14,6 @@ technicalDataRouter.post(
   technicalDataController.checkAnswer,
 );
 
+technicalDataRouter.post('/technical', technicalDataController.checkAnswer);
+
 module.exports = technicalDataRouter;
