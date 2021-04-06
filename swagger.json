@@ -1,0 +1,289 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "2.0.2",
+        "title": "proTest API",
+        "description": "proTest API docs",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "servers": [
+        {
+            "url": "http://localhost:5050"
+        },
+        {
+            "url": "https://little-bitch.herokuapp.com/"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Authorization endpoints"
+        }
+    ],
+    "paths": {
+        "/registration": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User registration",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "requestBody": {
+                    "description": "Registration's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegistrationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegistrationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)",
+                        "content": {}
+                    },
+                    "409": {
+                        "description": "Provided email already exists",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User login",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "requestBody": {
+                    "description": "Login's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User logout",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful logout",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {}
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "RegistrationRequest": {
+                "type": "object",
+                "required": [
+                    "email",
+                    "password",
+                    "name"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "User's email",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "User's password",
+                        "example": "123456"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "User name",
+                        "example": "Vitalik Malets"
+                    }
+                }
+            },
+            "RegistrationResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "description": "User's id",
+                            "example": "606cb7715353805154009464"
+                        },
+                        "email": {
+                            "type": "string",
+                            "description": "User's email",
+                            "format": "email"
+                        },
+                        "name": {
+                            "type": "string",
+                            "description": "User's name",
+                            "format": "string"
+                        },
+                        "avatarURL": {
+                            "type": "string",
+                            "description": "User's avatar",
+                            "format": "string"
+                        }
+                    }
+                },
+                "example": {
+                    "id": "606cb7715353805154009464",
+                    "email": "tasasdd@mail.com",
+                    "name": "dadsasdas",
+                    "avatarURL": "https://s.gravatar.com/avatar/84559937425bc8e26c87d1f469a2cfbf?s=250&r=x&d=retro"
+                }
+            },
+            "LoginRequest": {
+                "type": "object",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "User's email",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "User's password",
+                        "example": "123456"
+                    }
+                }
+            },
+            "LoginResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "token": {
+                            "type": "string",
+                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDY5YjZkM2FhYWU5OTFiMDgzYWQxZjAiLCJpYXQiOjE2MTc2NTM4OTZ9.Jg1_pPtemJz7PF5mfnc7KeHV2mUAX68y4XTJvXR1nZ0"
+                        },
+                        "user": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "description": "User's id",
+                                    "example": "606cb7715353805154009464"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "description": "User's email",
+                                    "format": "email"
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "description": "User's name",
+                                    "format": "string"
+                                },
+                                "avatarURL": {
+                                    "type": "string",
+                                    "description": "User's avatar",
+                                    "format": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDY5YjZkM2FhYWU5OTFiMDgzYWQxZjAiLCJpYXQiOjE2MTc3Mzk2NjZ9.yn9QspC5XrmIGZQ9xPBfrPtUM3DHoErm6rNKphJqUk0",
+                    "user": {
+                        "id": "6069b6d3aaae991b083ad1f0",
+                        "email": "test488@mail.com",
+                        "name": "NIkita",
+                        "avatarURL": "https://s.gravatar.com/avatar/d97405fe5a26f450d61554817227523a?s=250&r=x&d=retro"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "Bearer": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

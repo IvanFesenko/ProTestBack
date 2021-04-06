@@ -5,15 +5,16 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const helmet = require("helmet");
+const helmet = require('helmet');
 const swaggerUI = require('swagger-ui-express');
 
 const userRouter = require('./models/users/user.router');
 const technicalDataRouter = require('./models/technicalData/technicalData.router');
 const theoreticalDataRouter = require('./models/theoreticalData/theoreticalData.router');
 
-const swaggerSpecs = require('./helpers/swaggerSpecs');
-const apiLimiter = require('./helpers/apiLimiter')
+// const swaggerSpecs = require('./helpers/swaggerSpecs');
+const swaggerSpecs = require('../swagger.json');
+const apiLimiter = require('./helpers/apiLimiter');
 
 dotenv.config();
 
@@ -64,7 +65,7 @@ class Server {
   }
 
   _initRoutes() {
-    this.app.use("/", apiLimiter);
+    this.app.use('/', apiLimiter);
     this.app.use('/', userRouter);
     this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
     this.app.use('/tests', technicalDataRouter);
@@ -84,7 +85,7 @@ class Server {
     }
   }
 
- _initErrors() {
+  _initErrors() {
     this.app.use((req, res) => {
       res.status(404).json({ message: 'Not found' });
     });

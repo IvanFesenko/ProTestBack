@@ -43,7 +43,7 @@ class UsersController {
           .json({
             message: 'Email is duplicated',
           })
-          .status(httpCode.BAD_REQUEST);
+          .status(httpCode.CONFLICT);
       }
       next(err);
     }
@@ -56,7 +56,6 @@ class UsersController {
       } = req;
 
       const user = await User.findUserByEmail(email);
-
       if (!user) {
         return res
           .status(httpCode.BAD_REQUEST)
@@ -87,6 +86,7 @@ class UsersController {
           id: user._id,
           email: user.email,
           name: user.name,
+          avatarURL: user.avatarURL,
         },
       });
     } catch (err) {
