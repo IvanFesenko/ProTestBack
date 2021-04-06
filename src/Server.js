@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const helmet = require("helmet");
 const swaggerUI = require('swagger-ui-express');
 
 const userRouter = require('./models/users/user.router');
@@ -12,6 +13,7 @@ const technicalDataRouter = require('./models/technicalData/technicalData.router
 const theoreticalDataRouter = require('./models/theoreticalData/theoreticalData.router');
 
 const swaggerSpecs = require('./helpers/swaggerSpecs');
+const apiLimiter = require('./helpers/apiLimiter')
 
 dotenv.config();
 
@@ -27,8 +29,8 @@ class Server {
     this._initMiddleWares();
     this._initRoutes();
     await this._initDB();
-    this._startListening();
     this._initErrors();
+    this._startListening();
   }
 
   _initServer() {
@@ -36,6 +38,7 @@ class Server {
   }
 
   _initMiddleWares() {
+    this.app.use(helmet());
     this.app.use(express.json());
     this.app.use(
       morgan('dev', {
@@ -55,14 +58,15 @@ class Server {
     );
     this.app.use(
       cors({
-        origin: 'http://localhost:3000',
+        origin: 'http://localhost:5050',
       }),
     );
   }
 
   _initRoutes() {
-    this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
+    this.app.use("/", apiLimiter);
     this.app.use('/', userRouter);
+    this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
     this.app.use('/tests', technicalDataRouter);
     this.app.use('/tests', theoreticalDataRouter);
   }
@@ -80,6 +84,16 @@ class Server {
     }
   }
 
+ _initErrors() {
+    this.app.use((req, res) => {
+      res.status(404).json({ message: 'Not found' });
+    });
+
+    this.app.use((err, req, res, next) => {
+      res.status(err.status || 500).json({ message: err.message });
+    });
+  }
+
   _startListening() {
     this.app.listen(this.PORT, err => {
       if (err) {
@@ -87,16 +101,6 @@ class Server {
       }
 
       console.log(`Started listening server on ${this.PORT}`);
-    });
-  }
-
-  _initErrors() {
-    this.app.use((req, res) => {
-      res.status(404).json({ message: 'Not found' });
-    });
-
-    this.app.use((err, req, res, next) => {
-      res.status(err.status || 500).json({ message: err.message });
     });
   }
 }
