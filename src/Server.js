@@ -12,7 +12,6 @@ const userRouter = require('./models/users/user.router');
 const technicalDataRouter = require('./models/technicalData/technicalData.router');
 const theoreticalDataRouter = require('./models/theoreticalData/theoreticalData.router');
 
-// const swaggerSpecs = require('./helpers/swaggerSpecs');
 const swaggerSpecs = require('../swagger.json');
 const apiLimiter = require('./helpers/apiLimiter');
 
