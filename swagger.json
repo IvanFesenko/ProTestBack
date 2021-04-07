@@ -27,6 +27,10 @@
         {
             "name": "Auth",
             "description": "Authorization endpoints"
+        },
+        {
+            "name": "Tests",
+            "description": "Technical and theoretical tests for users"
         }
     ],
     "paths": {
@@ -145,6 +149,118 @@
                     },
                     "403": {
                         "description": "Forbidden",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/tests/technical": {
+            "get": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Technical tests question",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "technical tests response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TechnicalQuestionsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "content": {}
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Technical tests answers",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "technical answers",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "not found",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/tests/theoretical": {
+            "get": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Theoretical tests question",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Theoretical tests response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TheoreticalQuestionsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "content": {}
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Theoretical tests answers",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Theoretical answers",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "not found",
                         "content": {}
                     }
                 }
@@ -275,6 +391,103 @@
                         "name": "NIkita",
                         "avatarURL": "https://s.gravatar.com/avatar/d97405fe5a26f450d61554817227523a?s=250&r=x&d=retro"
                     }
+                }
+            },
+            "TechnicalQuestionsResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "number",
+                            "description": "Response status",
+                            "example": 200
+                        },
+                        "type": {
+                            "type": "string",
+                            "description": "technical questions",
+                            "format": "string"
+                        },
+                        "quantity": {
+                            "type": "number",
+                            "description": "Amount of questions",
+                            "example": 1
+                        },
+                        "requestBody": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "description": "technical questions"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "status": 200,
+                    "type": "technical questions",
+                    "quantity": 12,
+                    "requestBody": [
+                        {
+                            "_id": "6068afd50061119141af33d2",
+                            "question": "What is superfluous in the criteria for launching testing?",
+                            "answers": [
+                                "SRS - software",
+                                "FRS",
+                                "Use case",
+                                "Test plan",
+                                "All options are correct",
+                                "All options are incorrect"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "TheoreticalQuestionsResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "number",
+                            "description": "Response status",
+                            "example": 200
+                        },
+                        "type": {
+                            "type": "string",
+                            "description": "theoretical questions",
+                            "format": "string"
+                        },
+                        "quantity": {
+                            "type": "number",
+                            "description": "Amount of questions",
+                            "example": 1
+                        },
+                        "requestBody": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "description": "theoretical questions"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "status": 200,
+                    "type": "theoretical questions",
+                    "quantity": 12,
+                    "requestBody": [
+                        {
+                            "_id": "6068b0160061119141af33df",
+                            "question": "Most often, viewing items in the Google Chrome browser on Mac is launched by this key combination",
+                            "answers": [
+                                "Cmd+Opt+O",
+                                "Cmd+Opt+R",
+                                "Cmd+Opt+J",
+                                "Cmd+Opt+N",
+                                "Cmd+Opt+W"
+                            ]
+                        }
+                    ]
                 }
             }
         },
