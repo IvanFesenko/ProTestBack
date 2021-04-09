@@ -1,0 +1,660 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "2.0.2",
+        "title": "proTest API",
+        "description": "proTest API docs",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "servers": [
+        {
+            "url": "http://localhost:5050"
+        },
+        {
+            "url": "https://little-bitch.herokuapp.com/"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Authorization endpoints"
+        },
+        {
+            "name": "Tests",
+            "description": "Technical and theoretical tests for users"
+        }
+    ],
+    "paths": {
+        "/registration": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User registration",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "requestBody": {
+                    "description": "Registration's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegistrationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegistrationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)",
+                        "content": {}
+                    },
+                    "409": {
+                        "description": "Provided email already exists",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User login",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "requestBody": {
+                    "description": "Login's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User logout",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful logout",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/tests/technical": {
+            "get": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Technical tests question",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Technical tests questions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TechnicalQuestionsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "content": {}
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Technical tests answers",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "requestBody": {
+                    "description": "Technical tests request",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TechnicalAnswersRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Technical tests answers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TechnicalAnswersResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/tests/theoretical": {
+            "get": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Theoretical tests question",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Theoretical tests response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TheoreticalQuestionsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "content": {}
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Theoretical tests answers",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "requestBody": {
+                    "description": "Theoretical tests Answers",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TheoreticalAnswersRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Theoretical tests answers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TheoreticalAnswersResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "content": {}
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "RegistrationRequest": {
+                "type": "object",
+                "required": [
+                    "email",
+                    "password",
+                    "name"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "User's email",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "User's password",
+                        "example": "123456"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "User name",
+                        "example": "Vitalik Malets"
+                    }
+                }
+            },
+            "RegistrationResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "description": "User's id",
+                            "example": "606cb7715353805154009464"
+                        },
+                        "email": {
+                            "type": "string",
+                            "description": "User's email",
+                            "format": "email"
+                        },
+                        "name": {
+                            "type": "string",
+                            "description": "User's name",
+                            "format": "string"
+                        },
+                        "avatarURL": {
+                            "type": "string",
+                            "description": "User's avatar",
+                            "format": "string"
+                        }
+                    }
+                },
+                "example": {
+                    "id": "606cb7715353805154009464",
+                    "email": "tasasdd@mail.com",
+                    "name": "dadsasdas",
+                    "avatarURL": "https://s.gravatar.com/avatar/84559937425bc8e26c87d1f469a2cfbf?s=250&r=x&d=retro"
+                }
+            },
+            "LoginRequest": {
+                "type": "object",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "User's email",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "User's password",
+                        "example": "123456"
+                    }
+                }
+            },
+            "LoginResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "token": {
+                            "type": "string",
+                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDY5YjZkM2FhYWU5OTFiMDgzYWQxZjAiLCJpYXQiOjE2MTc2NTM4OTZ9.Jg1_pPtemJz7PF5mfnc7KeHV2mUAX68y4XTJvXR1nZ0"
+                        },
+                        "user": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "description": "User's id",
+                                    "example": "606cb7715353805154009464"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "description": "User's email",
+                                    "format": "email"
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "description": "User's name",
+                                    "format": "string"
+                                },
+                                "avatarURL": {
+                                    "type": "string",
+                                    "description": "User's avatar",
+                                    "format": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDY5YjZkM2FhYWU5OTFiMDgzYWQxZjAiLCJpYXQiOjE2MTc3Mzk2NjZ9.yn9QspC5XrmIGZQ9xPBfrPtUM3DHoErm6rNKphJqUk0",
+                    "user": {
+                        "id": "6069b6d3aaae991b083ad1f0",
+                        "email": "test488@mail.com",
+                        "name": "NIkita",
+                        "avatarURL": "https://s.gravatar.com/avatar/d97405fe5a26f450d61554817227523a?s=250&r=x&d=retro"
+                    }
+                }
+            },
+            "TechnicalQuestionsResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "number",
+                            "description": "Response status",
+                            "example": 200
+                        },
+                        "type": {
+                            "type": "string",
+                            "description": "technical questions",
+                            "format": "string"
+                        },
+                        "quantity": {
+                            "type": "number",
+                            "description": "Amount of questions",
+                            "example": 1
+                        },
+                        "responseBody": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "description": "technical questions"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "status": 200,
+                    "type": "technical questions",
+                    "quantity": 1,
+                    "responseBody": [
+                        {
+                            "_id": "6068afd50061119141af33d2",
+                            "question": "What is superfluous in the criteria for launching testing?",
+                            "answers": [
+                                "SRS - software",
+                                "FRS",
+                                "Use case",
+                                "Test plan",
+                                "All options are correct",
+                                "All options are incorrect"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "TechnicalAnswersRequest": {
+                "type": "object",
+                "properties": {
+                    "6068afd50061119141af33c5": {
+                        "type": "string",
+                        "description": "id of question",
+                        "example": "All options are correct"
+                    }
+                }
+            },
+            "TechnicalAnswersResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "number",
+                            "description": "Response status",
+                            "example": 200
+                        },
+                        "type": {
+                            "type": "string",
+                            "description": "technical questions",
+                            "format": "string"
+                        },
+                        "quantity": {
+                            "type": "number",
+                            "description": "Amount of questions",
+                            "example": 1
+                        },
+                        "responseBody": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "description": "technical questions"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "status": 200,
+                    "type": "technical answers",
+                    "quantity": 3,
+                    "responseBody": [
+                        {
+                            "_id": "6068afd50061119141af33c5",
+                            "question": "All options are correct",
+                            "userAnswerIs": true
+                        },
+                        {
+                            "_id": "6068afd50061119141af33c6",
+                            "question": "RUP1",
+                            "userAnswerIs": false
+                        },
+                        {
+                            "_id": "6068afd50061119141af33c7",
+                            "question": "All options are incorrect",
+                            "userAnswerIs": true
+                        }
+                    ]
+                }
+            },
+            "TheoreticalAnswersRequest": {
+                "type": "object",
+                "properties": {
+                    "6068b0160061119141af33e4": {
+                        "type": "string",
+                        "description": "id of question",
+                        "example": "All options are incorrect"
+                    }
+                }
+            },
+            "TheoreticalAnswersResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "number",
+                            "description": "Response status",
+                            "example": 200
+                        },
+                        "type": {
+                            "type": "string",
+                            "description": "theoretical questions",
+                            "format": "string"
+                        },
+                        "quantity": {
+                            "type": "number",
+                            "description": "Amount of questions",
+                            "example": 1
+                        },
+                        "responseBody": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "description": "theoretical questions"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "status": 200,
+                    "type": "Theoretical answers",
+                    "quantity": 3,
+                    "responseBody": [
+                        {
+                            "_id": "6068afd50061119141af33c5",
+                            "question": "All options are correct",
+                            "userAnswerIs": true
+                        },
+                        {
+                            "_id": "6068afd50061119141af33c6",
+                            "question": "RUP1",
+                            "userAnswerIs": false
+                        },
+                        {
+                            "_id": "6068afd50061119141af33c7",
+                            "question": "All options are incorrect",
+                            "userAnswerIs": true
+                        }
+                    ]
+                }
+            },
+            "TheoreticalQuestionsResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "number",
+                            "description": "Response status",
+                            "example": 200
+                        },
+                        "type": {
+                            "type": "string",
+                            "description": "theoretical questions",
+                            "format": "string"
+                        },
+                        "quantity": {
+                            "type": "number",
+                            "description": "Amount of questions",
+                            "example": 1
+                        },
+                        "responseBody": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "description": "theoretical questions"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "status": 200,
+                    "type": "theoretical questions",
+                    "quantity": 1,
+                    "responseBody": [
+                        {
+                            "_id": "6068b0160061119141af33df",
+                            "question": "Most often, viewing items in the Google Chrome browser on Mac is launched by this key combination",
+                            "answers": [
+                                "Cmd+Opt+O",
+                                "Cmd+Opt+R",
+                                "Cmd+Opt+J",
+                                "Cmd+Opt+N",
+                                "Cmd+Opt+W"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "securitySchemes": {
+            "Bearer": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
