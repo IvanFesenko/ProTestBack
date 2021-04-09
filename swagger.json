@@ -170,7 +170,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "technical tests response",
+                        "description": "Technical tests questions",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -198,10 +198,27 @@
                         ]
                     }
                 ],
+                "requestBody": {
+                    "description": "Technical tests request",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TechnicalAnswersRequest"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "technical answers",
-                        "content": {}
+                        "description": "Technical tests answers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TechnicalAnswersResponse"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "not found",
@@ -254,10 +271,27 @@
                         ]
                     }
                 ],
+                "requestBody": {
+                    "description": "Theoretical tests Answers",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TheoreticalAnswersRequest"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "Theoretical answers",
-                        "content": {}
+                        "description": "Theoretical tests answers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TheoreticalAnswersResponse"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "not found",
@@ -413,7 +447,7 @@
                             "description": "Amount of questions",
                             "example": 1
                         },
-                        "requestBody": {
+                        "responseBody": {
                             "type": "array",
                             "items": {
                                 "type": "object",
@@ -425,8 +459,8 @@
                 "example": {
                     "status": 200,
                     "type": "technical questions",
-                    "quantity": 12,
-                    "requestBody": [
+                    "quantity": 1,
+                    "responseBody": [
                         {
                             "_id": "6068afd50061119141af33d2",
                             "question": "What is superfluous in the criteria for launching testing?",
@@ -438,6 +472,130 @@
                                 "All options are correct",
                                 "All options are incorrect"
                             ]
+                        }
+                    ]
+                }
+            },
+            "TechnicalAnswersRequest": {
+                "type": "object",
+                "properties": {
+                    "6068afd50061119141af33c5": {
+                        "type": "string",
+                        "description": "id of question",
+                        "example": "All options are correct"
+                    }
+                }
+            },
+            "TechnicalAnswersResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "number",
+                            "description": "Response status",
+                            "example": 200
+                        },
+                        "type": {
+                            "type": "string",
+                            "description": "technical questions",
+                            "format": "string"
+                        },
+                        "quantity": {
+                            "type": "number",
+                            "description": "Amount of questions",
+                            "example": 1
+                        },
+                        "responseBody": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "description": "technical questions"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "status": 200,
+                    "type": "technical answers",
+                    "quantity": 3,
+                    "responseBody": [
+                        {
+                            "_id": "6068afd50061119141af33c5",
+                            "question": "All options are correct",
+                            "userAnswerIs": true
+                        },
+                        {
+                            "_id": "6068afd50061119141af33c6",
+                            "question": "RUP1",
+                            "userAnswerIs": false
+                        },
+                        {
+                            "_id": "6068afd50061119141af33c7",
+                            "question": "All options are incorrect",
+                            "userAnswerIs": true
+                        }
+                    ]
+                }
+            },
+            "TheoreticalAnswersRequest": {
+                "type": "object",
+                "properties": {
+                    "6068b0160061119141af33e4": {
+                        "type": "string",
+                        "description": "id of question",
+                        "example": "All options are incorrect"
+                    }
+                }
+            },
+            "TheoreticalAnswersResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "number",
+                            "description": "Response status",
+                            "example": 200
+                        },
+                        "type": {
+                            "type": "string",
+                            "description": "theoretical questions",
+                            "format": "string"
+                        },
+                        "quantity": {
+                            "type": "number",
+                            "description": "Amount of questions",
+                            "example": 1
+                        },
+                        "responseBody": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "description": "theoretical questions"
+                            }
+                        }
+                    }
+                },
+                "example": {
+                    "status": 200,
+                    "type": "Theoretical answers",
+                    "quantity": 3,
+                    "responseBody": [
+                        {
+                            "_id": "6068afd50061119141af33c5",
+                            "question": "All options are correct",
+                            "userAnswerIs": true
+                        },
+                        {
+                            "_id": "6068afd50061119141af33c6",
+                            "question": "RUP1",
+                            "userAnswerIs": false
+                        },
+                        {
+                            "_id": "6068afd50061119141af33c7",
+                            "question": "All options are incorrect",
+                            "userAnswerIs": true
                         }
                     ]
                 }
@@ -462,7 +620,7 @@
                             "description": "Amount of questions",
                             "example": 1
                         },
-                        "requestBody": {
+                        "responseBody": {
                             "type": "array",
                             "items": {
                                 "type": "object",
@@ -474,8 +632,8 @@
                 "example": {
                     "status": 200,
                     "type": "theoretical questions",
-                    "quantity": 12,
-                    "requestBody": [
+                    "quantity": 1,
+                    "responseBody": [
                         {
                             "_id": "6068b0160061119141af33df",
                             "question": "Most often, viewing items in the Google Chrome browser on Mac is launched by this key combination",
