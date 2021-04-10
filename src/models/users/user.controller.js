@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const queryString = require('query-string');
+const axios = require('axios');
 
 const User = require('./User');
 const httpCode = require('../../constants/httpCode');
@@ -15,6 +17,14 @@ class UsersController {
 
   get logoutUser() {
     return this._logoutUser.bind(this);
+  }
+
+  get googleAuth() {
+    return this._googleAuth.bind(this);
+  }
+
+  get googleRedirect() {
+    return this._googleRedirect.bind(this);
   }
 
   async _registration(req, res, next) {
@@ -76,6 +86,7 @@ class UsersController {
       const token = await jwt.sign(
         { userId: user._id },
         process.env.PRIVATE_KEY,
+        { expiresIn: '1h' },
       );
 
       await User.findUserByIdAndUpdate(user._id, { token });
@@ -100,6 +111,74 @@ class UsersController {
       await User.findUserByIdAndUpdate(userId, { token: null });
 
       res.status(httpCode.NO_CONTENT).send();
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async _googleAuth(req, res, next) {
+    try {
+      const stringifiedParams = queryString.stringify({
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        redirect_uri: `${process.env.BACKEND_URL}/auth/google-redirect`,
+        scope: [
+          'https://www.googleapis.com/auth/userinfo.email',
+          'https://www.googleapis.com/auth/userinfo.profile',
+        ].join(' '),
+        response_type: 'code',
+        access_type: 'offline',
+        prompt: 'consent',
+      });
+      return res.redirect(
+        `https://accounts.google.com/o/oauth2/v2/auth?${stringifiedParams}`,
+      );
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async _googleRedirect(req, res, next) {
+    try {
+      const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+      const urlObj = new URL(fullUrl);
+      const urlParams = queryString.parse(urlObj.search);
+      const code = urlParams.code;
+      const tokenData = await axios({
+        url: `https://oauth2.googleapis.com/token`,
+        method: 'post',
+        data: {
+          client_id: process.env.GOOGLE_CLIENT_ID,
+          client_secret: process.env.GOOGLE_CLIENT_SECRET_KEY,
+          redirect_uri: `${process.env.BACKEND_URL}/auth/google-redirect`,
+          grant_type: 'authorization_code',
+          code,
+        },
+      });
+      const userData = await axios({
+        url: 'https://www.googleapis.com/oauth2/v2/userinfo',
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${tokenData.data.access_token}`,
+        },
+      });
+
+      const existingUser = await User.findUserByEmail(userData.data.email);
+      if (!existingUser || !existingParent.originUrl) {
+        return res.status(httpCode.FORBIDDEN).send({
+          message:
+            'Make registration with out web-site first. We use googleAuth only for sign-in',
+        });
+      }
+
+      const accessToken = jwt.sign(
+        { userId: existingUser._id },
+        process.env.PRIVATE_KEY,
+        { expiresIn: '1h' },
+      );
+
+      return res.redirect(
+        `${process.env.FRONTEND_URL}/google-redirect/?accessToken=${accessToken}`,
+      );
     } catch (err) {
       next(err);
     }
