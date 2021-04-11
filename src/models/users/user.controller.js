@@ -17,6 +17,10 @@ class UsersController {
     return this._logoutUser.bind(this);
   }
 
+  get currentUser() {
+    return this._currentUser.bind(this);
+  }
+
   async _registration(req, res, next) {
     try {
       const {
@@ -100,6 +104,17 @@ class UsersController {
       await User.findUserByIdAndUpdate(userId, { token: null });
 
       res.status(httpCode.NO_CONTENT).send();
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async _currentUser(req, res, next) {
+    const { _id, name, email, avatarURL } = req.user;
+    try {
+      res.status(httpCode.OK).json({
+        responseBody: { _id, name, email, avatarURL },
+      });
     } catch (err) {
       next(err);
     }
