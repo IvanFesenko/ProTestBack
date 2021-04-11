@@ -30,6 +30,10 @@ class UsersController {
     return this._googleRedirect.bind(this);
   }
 
+  get currentUser() {
+    return this._currentUser.bind(this);
+  }
+
   async _registration(req, res, next) {
     try {
       const {
@@ -222,6 +226,17 @@ class UsersController {
       return res.redirect(
         `${process.env.FRONTEND_URL}/google-redirect?accessToken=${accessToken}`,
       );
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async _currentUser(req, res, next) {
+    const { _id, name, email, avatarURL } = req.user;
+    try {
+      res.status(httpCode.OK).json({
+        responseBody: { _id, name, email, avatarURL },
+      });
     } catch (err) {
       next(err);
     }

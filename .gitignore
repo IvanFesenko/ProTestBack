@@ -3,7 +3,6 @@ access.log
 .idea
 *.log
 .env
-
 # dependencies
 /node_modules
 /.pnp

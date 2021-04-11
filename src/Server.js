@@ -58,7 +58,7 @@ class Server {
     );
     this.app.use(
       cors({
-        origin: ['http://localhost:3000', 'http://localhost:5050']
+        origin: ['http://localhost:3000', 'https://protest-fsdev.netlify.app'],
       }),
     );
   }
