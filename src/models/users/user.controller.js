@@ -38,17 +38,17 @@ class UsersController {
         process.env.PRIVATE_KEY,
       );
 
-      const updatedUser = await User.findByIdAndUpdate(user._id, { token });
+      const userWithToken = await User.findByIdAndUpdate(user._id, { token });
 
       return res
         .status(httpCode.OK)
         .send({
           token: token,
           user: {
-            id: updatedUser._id,
-            email: updatedUser.email,
-            name: updatedUser.name,
-            avatarURL: updatedUser.avatarURL,
+            id: userWithToken._id,
+            email: userWithToken.email,
+            name: userWithToken.name,
+            avatarURL: userWithToken.avatarURL,
           },
         })
         .status(httpCode.CREATED);
