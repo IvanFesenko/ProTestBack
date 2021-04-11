@@ -4,8 +4,10 @@ const queryString = require('query-string');
 const axios = require('axios');
 const passwordGenerator = require('generate-password');
 
-const User = require('./User');
 const httpCode = require('../../constants/httpCode');
+const transporter = require('../../helpers/nodemailerTransporter');
+
+const User = require('./User');
 
 class UsersController {
   get registration() {
@@ -175,35 +177,45 @@ class UsersController {
       });
 
       const existingUser = await User.findUserByEmail(userData.data.email);
-      console.log(userData);
+
+      let userId = existingUser && existingUser._id;
+
       if (!existingUser) {
         const password = passwordGenerator.generate({
           length: 10,
           numbers: true,
         });
 
-        //TODO: send password with nodemailer
-
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        await User.create({
-          email: userData.email,
-          name: userData.name,
+        const newUser = await User.create({
+          email: userData.data.email,
+          name: userData.data.name,
           password: hashedPassword,
         });
-        // return res.status(httpCode.FORBIDDEN).send({
-        //   message:
-        //     'Make registration with our web-site first. We use googleAuth only for sign-in',
-        // });
+
+        userId = newUser && newUser._id;
+
+        const mailOptions = {
+          from: process.env.NODE_MAILER_EMAIL,
+          to: userData.data.email,
+          subject: 'proTest - Password',
+          text: `Hello, here is your first password ${password}, better to change it in your personal profile page soon as it possible.`,
+        };
+
+        transporter.sendMail(mailOptions, (err, data) => {
+          if (err) {
+            return console.log('Error with nodemailer occurs');
+          }
+          return console.log('Email sent!!!');
+        });
       }
 
-      const accessToken = jwt.sign(
-        { userId: existingUser._id },
-        process.env.PRIVATE_KEY,
-        { expiresIn: process.env.ACCESS_TOKEN_EXPIRES_TIME },
-      );
+      const accessToken = jwt.sign({ userId }, process.env.PRIVATE_KEY, {
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRES_TIME,
+      });
 
-      await User.findUserByIdAndUpdate(existingUser._id, {
+      await User.findUserByIdAndUpdate(userId, {
         token: accessToken,
       });
 
