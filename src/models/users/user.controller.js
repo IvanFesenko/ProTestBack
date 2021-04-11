@@ -28,17 +28,28 @@ class UsersController {
       } = req;
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const data = await User.create({
+      const user = await User.create({
         ...req.body,
         password: hashedPassword,
       });
 
-      res
-        .json({
-          id: data._id,
-          email: data.email,
-          name: data.name,
-          avatarURL: data.avatarURL,
+      const token = await jwt.sign(
+        { userId: user._id },
+        process.env.PRIVATE_KEY,
+      );
+
+      const updatedUser = await User.findByIdAndUpdate(user._id, { token });
+
+      return res
+        .status(httpCode.OK)
+        .send({
+          token: token,
+          user: {
+            id: updatedUser._id,
+            email: updatedUser.email,
+            name: updatedUser.name,
+            avatarURL: updatedUser.avatarURL,
+          },
         })
         .status(httpCode.CREATED);
     } catch (err) {
