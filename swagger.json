@@ -65,7 +65,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/RegistrationResponse"
+                                    "$ref": "#/components/schemas/RegistrationLoginResponse"
                                 }
                             }
                         }
@@ -112,7 +112,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/LoginResponse"
+                                    "$ref": "#/components/schemas/RegistrationLoginResponse"
                                 }
                             }
                         }
@@ -328,40 +328,6 @@
                     }
                 }
             },
-            "RegistrationResponse": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "id": {
-                            "type": "string",
-                            "description": "User's id",
-                            "example": "606cb7715353805154009464"
-                        },
-                        "email": {
-                            "type": "string",
-                            "description": "User's email",
-                            "format": "email"
-                        },
-                        "name": {
-                            "type": "string",
-                            "description": "User's name",
-                            "format": "string"
-                        },
-                        "avatarURL": {
-                            "type": "string",
-                            "description": "User's avatar",
-                            "format": "string"
-                        }
-                    }
-                },
-                "example": {
-                    "id": "606cb7715353805154009464",
-                    "email": "tasasdd@mail.com",
-                    "name": "dadsasdas",
-                    "avatarURL": "https://s.gravatar.com/avatar/84559937425bc8e26c87d1f469a2cfbf?s=250&r=x&d=retro"
-                }
-            },
             "LoginRequest": {
                 "type": "object",
                 "required": [
@@ -381,7 +347,7 @@
                     }
                 }
             },
-            "LoginResponse": {
+            "RegistrationLoginResponse": {
                 "type": "array",
                 "items": {
                     "type": "object",

@@ -50,11 +50,13 @@ class UsersController {
 
       res
         .json({
-          id: data._id,
-          email: data.email,
-          name: data.name,
-          avatarURL: data.avatarURL,
           token,
+          user: {
+            id: data._id,
+            email: data.email,
+            name: data.name,
+            avatarURL: data.avatarURL,
+          },
         })
         .status(httpCode.CREATED);
     } catch (err) {
