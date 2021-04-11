@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const queryString = require('query-string');
 const axios = require('axios');
+const passwordGenerator = require('generate-password');
 
 const User = require('./User');
 const httpCode = require('../../constants/httpCode');
@@ -39,12 +40,21 @@ class UsersController {
         password: hashedPassword,
       });
 
+      const token = await jwt.sign(
+        { userId: data._id },
+        process.env.PRIVATE_KEY,
+        { expiresIn: process.env.ACCESS_TOKEN_EXPIRES_TIME },
+      );
+
+      await User.findUserByIdAndUpdate(data._id, { token });
+
       res
         .json({
           id: data._id,
           email: data.email,
           name: data.name,
           avatarURL: data.avatarURL,
+          token,
         })
         .status(httpCode.CREATED);
     } catch (err) {
@@ -86,7 +96,7 @@ class UsersController {
       const token = await jwt.sign(
         { userId: user._id },
         process.env.PRIVATE_KEY,
-        { expiresIn: '1h' },
+        { expiresIn: process.env.ACCESS_TOKEN_EXPIRES_TIME },
       );
 
       await User.findUserByIdAndUpdate(user._id, { token });
@@ -163,21 +173,40 @@ class UsersController {
       });
 
       const existingUser = await User.findUserByEmail(userData.data.email);
-      if (!existingUser || !existingParent.originUrl) {
-        return res.status(httpCode.FORBIDDEN).send({
-          message:
-            'Make registration with out web-site first. We use googleAuth only for sign-in',
+      console.log(userData);
+      if (!existingUser) {
+        const password = passwordGenerator.generate({
+          length: 10,
+          numbers: true,
         });
+
+        //TODO: send password with nodemailer
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        await User.create({
+          email: userData.email,
+          name: userData.name,
+          password: hashedPassword,
+        });
+        // return res.status(httpCode.FORBIDDEN).send({
+        //   message:
+        //     'Make registration with our web-site first. We use googleAuth only for sign-in',
+        // });
       }
 
       const accessToken = jwt.sign(
         { userId: existingUser._id },
         process.env.PRIVATE_KEY,
-        { expiresIn: '1h' },
+        { expiresIn: process.env.ACCESS_TOKEN_EXPIRES_TIME },
       );
 
+      await User.findUserByIdAndUpdate(existingUser._id, {
+        token: accessToken,
+      });
+
       return res.redirect(
-        `${process.env.FRONTEND_URL}/google-redirect/?accessToken=${accessToken}`,
+        `${process.env.FRONTEND_URL}/google-redirect?accessToken=${accessToken}`,
       );
     } catch (err) {
       next(err);
