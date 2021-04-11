@@ -24,4 +24,6 @@ userRouter.post(
 
 userRouter.post('/logout', authorizeUser, userController.logoutUser);
 
+userRouter.get('/current-user', authorizeUser, userController.currentUser);
+
 module.exports = userRouter;
