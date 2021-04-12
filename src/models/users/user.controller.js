@@ -41,37 +41,36 @@ class UsersController {
       } = req;
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const data = await User.create({
+      const user = await User.create({
         ...req.body,
         password: hashedPassword,
       });
 
       const token = await jwt.sign(
-        { userId: data._id },
+        { userId: user._id },
         process.env.PRIVATE_KEY,
         { expiresIn: process.env.ACCESS_TOKEN_EXPIRES_TIME },
       );
 
-      await User.findUserByIdAndUpdate(data._id, { token });
+      await User.findByIdAndUpdate(user._id, { token });
 
-      res
-        .json({
-          token,
+      return res
+        .status(httpCode.OK)
+        .send({
+          token: token,
           user: {
-            id: data._id,
-            email: data.email,
-            name: data.name,
-            avatarURL: data.avatarURL,
+            id: user._id,
+            email: user.email,
+            name: user.name,
+            avatarURL: user.avatarURL,
           },
         })
         .status(httpCode.CREATED);
     } catch (err) {
       if (err.code === 11000) {
-        return res
-          .json({
-            message: 'Email is duplicated',
-          })
-          .status(httpCode.CONFLICT);
+        return res.status(httpCode.CONFLICT).json({
+          message: 'Email is duplicated',
+        });
       }
       next(err);
     }
