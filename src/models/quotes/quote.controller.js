@@ -1,13 +1,24 @@
 const Quote = require('./Quote');
+const httpCode = require('../../constants/httpCode');
+const randomNumber = require('../../helpers/getRandomNumber');
 
-const getQuote = async (req, res, next) => {
-  try {
-    const quotesID = await Quote.find({ program: { $in: [] } }).distinct('_id');
+class QuoteController {
+  async getQuotes(req, res, next) {
+    try {
+      const quotes = await Quote.find({});
+      const response = quotes[randomNumber(quotes.length)];
 
-    console.log(quotesID);
-  } catch (err) {
-    next(err.message);
+      if (!quotes) res.status(httpCode.NOT_FOUND);
+
+      res.status(httpCode.OK).json({
+        responseBody: response,
+      });
+    } catch (err) {
+      next(err.message);
+    }
   }
-};
+}
 
-module.exports = getQuote;
+const quoteController = new QuoteController();
+
+module.exports = quoteController;

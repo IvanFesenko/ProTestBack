@@ -54,11 +54,9 @@ class UsersController {
         .status(httpCode.CREATED);
     } catch (err) {
       if (err.code === 11000) {
-        return res
-          .json({
-            message: 'Email is duplicated',
-          })
-          .status(httpCode.CONFLICT);
+        return res.status(httpCode.CONFLICT).json({
+          message: 'Email is duplicated',
+        });
       }
       next(err);
     }

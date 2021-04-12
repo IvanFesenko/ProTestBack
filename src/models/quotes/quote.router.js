@@ -1,4 +1,7 @@
 const { Router } = require('express');
+const quoteRouter = Router();
 const quoteController = require('./quote.controller');
 
-Router.get('/quotes');
+quoteRouter.get('/quotes', quoteController.getQuotes);
+
+module.exports = quoteRouter;
