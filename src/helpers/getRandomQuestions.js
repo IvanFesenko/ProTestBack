@@ -1,16 +1,15 @@
 const getRandomQuestions = (data, randomFn) => {
+  const uniqueSet = new Set();
   const responseData = [];
 
   do {
     const randomNumber = randomFn(data.length);
-    responseData.map(item => {
-      if (item._id === data[randomNumber]._id) return;
-    });
-
-    //delete rightAnswer
     const { _id, question, answers } = data[randomNumber];
-    responseData.push({ _id, question, answers });
-  } while (responseData.length < 12);
+    uniqueSet.add(_id);
+    uniqueSet[_id] = { _id, question, answers };
+  } while (uniqueSet.size < 12);
+
+  uniqueSet.forEach((idx, a, set) => responseData.push(uniqueSet[idx]));
 
   return responseData;
 };

@@ -9,6 +9,7 @@ const helmet = require('helmet');
 const swaggerUI = require('swagger-ui-express');
 
 const userRouter = require('./models/users/user.router');
+const quoteRouter = require('./models/quotes/quote.router');
 const technicalDataRouter = require('./models/technicalData/technicalData.router');
 const theoreticalDataRouter = require('./models/theoreticalData/theoreticalData.router');
 
@@ -58,7 +59,7 @@ class Server {
     );
     this.app.use(
       cors({
-        origin: 'http://localhost:5050',
+        origin: ['http://localhost:3000', 'https://protest-fsdev.netlify.app'],
       }),
     );
   }
@@ -69,6 +70,7 @@ class Server {
     this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
     this.app.use('/tests', technicalDataRouter);
     this.app.use('/tests', theoreticalDataRouter);
+    this.app.use('/', quoteRouter);
   }
 
   async _initDB() {
