@@ -24,6 +24,10 @@ userRouter.post(
 
 userRouter.post('/logout', authorizeUser, userController.logoutUser);
 
+userRouter.get('/auth/google', userController.googleAuth);
+
+userRouter.get('/auth/google-redirect', userController.googleRedirect);
+
 userRouter.get('/current-user', authorizeUser, userController.currentUser);
 
 module.exports = userRouter;
