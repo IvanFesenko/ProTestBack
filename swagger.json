@@ -299,6 +299,37 @@
                     }
                 }
             }
+        },
+        "/quotes": {
+            "get": {
+                "tags": [
+                    "quotes"
+                ],
+                "summary": "Quotes",
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "quotes successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/QuotesResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {}
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -612,6 +643,36 @@
                             ]
                         }
                     ]
+                }
+            },
+            "QuotesResponse": {
+                "type": "object",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "_id": {
+                            "type": "string",
+                            "description": "Quote id",
+                            "example": "607487b483bc317aafca18b6"
+                        },
+                        "quote": {
+                            "type": "string",
+                            "description": "quote",
+                            "example": "Quality is free, but only to those who are willing to pay heavily for it."
+                        },
+                        "author": {
+                            "type": "string",
+                            "description": "quote author",
+                            "example": "DeMarco and Lister"
+                        }
+                    }
+                },
+                "example": {
+                    "responseBody": {
+                        "_id": "607487b483bc317aafca18b6",
+                        "quote": "Quality is free, but only to those who are willing to pay heavily for it.",
+                        "author": "DeMarco and Lister"
+                    }
                 }
             }
         },
