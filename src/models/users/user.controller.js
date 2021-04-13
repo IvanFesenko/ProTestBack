@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('./User');
 const httpCode = require('../../constants/httpCode');
+const checkPasswordBCrypt = require('../../helpers/checkPasswordBCrypt');
 
 class UsersController {
   get registration() {
@@ -19,6 +20,10 @@ class UsersController {
 
   get currentUser() {
     return this._currentUser.bind(this);
+  }
+
+  get changePassword() {
+    return this._changePassword.bind(this);
   }
 
   async _registration(req, res, next) {
@@ -75,7 +80,7 @@ class UsersController {
           .send('Authentication is failed');
       }
 
-      const passwordCompareResult = await bcrypt.compare(
+      const passwordCompareResult = checkPasswordBCrypt(
         password,
         user.password,
       );
@@ -123,6 +128,37 @@ class UsersController {
     try {
       res.status(httpCode.OK).json({
         responseBody: { _id, name, email, avatarURL },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async _changePassword(req, res, next) {
+    const { newPassword, oldPassword } = req.body;
+    const { _id, password } = req.user;
+
+    try {
+      const passwordCompareResult = await checkPasswordBCrypt(
+        oldPassword,
+        password,
+      );
+
+      if (!passwordCompareResult) {
+        return res.status(httpCode.FORBIDDEN).json({
+          status: httpCode.FORBIDDEN,
+          message: 'forbidden',
+        });
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+      await User.findByIdAndUpdate(_id, {
+        password: hashedPassword,
+      });
+
+      res.status(httpCode.CREATED).json({
+        message: 'password changed',
       });
     } catch (err) {
       next(err);
