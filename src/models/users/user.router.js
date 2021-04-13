@@ -10,15 +10,30 @@ const {
 } = require('../../helpers/validateSchemas.js');
 const authorizeUser = require('../../helpers/authorizeUser.js');
 
-userRouter
-  .post(
-    '/registration',
-    validate(registrationValidateSchema),
-    userController.registration,
-  )
-  .post('/login', validate(loginUserValidateSchema), userController.loginUser)
-  .post('/logout', authorizeUser, userController.logoutUser)
-  .get('/current-user', authorizeUser, userController.currentUser)
-  .post('/change-password', authorizeUser, userController.changePassword);
+userRouter.post(
+  '/registration',
+  validate(registrationValidateSchema),
+  userController.registration,
+);
+
+userRouter.post(
+  '/login',
+  validate(loginUserValidateSchema),
+  userController.loginUser,
+);
+
+userRouter.post('/logout', authorizeUser, userController.logoutUser);
+
+userRouter.get('/auth/google', userController.googleAuth);
+
+userRouter.get('/auth/google-redirect', userController.googleRedirect);
+
+userRouter.get('/current-user', authorizeUser, userController.currentUser);
+
+userRouter.post(
+  '/change-password',
+  authorizeUser,
+  userController.changePassword,
+);
 
 module.exports = userRouter;

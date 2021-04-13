@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "version": "2.0.2",
+        "version": "1.0.0",
         "title": "proTest API",
         "description": "proTest API docs",
         "license": {
@@ -65,7 +65,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/RegistrationResponse"
+                                    "$ref": "#/components/schemas/RegistrationLoginResponse"
                                 }
                             }
                         }
@@ -112,7 +112,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/LoginResponse"
+                                    "$ref": "#/components/schemas/RegistrationLoginResponse"
                                 }
                             }
                         }
@@ -299,6 +299,37 @@
                     }
                 }
             }
+        },
+        "/quotes": {
+            "get": {
+                "tags": [
+                    "quotes"
+                ],
+                "summary": "Quotes",
+                "security": [
+                    {
+                        "Bearer": [
+                            "token"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "quotes successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/QuotesResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {}
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -328,40 +359,6 @@
                     }
                 }
             },
-            "RegistrationResponse": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "id": {
-                            "type": "string",
-                            "description": "User's id",
-                            "example": "606cb7715353805154009464"
-                        },
-                        "email": {
-                            "type": "string",
-                            "description": "User's email",
-                            "format": "email"
-                        },
-                        "name": {
-                            "type": "string",
-                            "description": "User's name",
-                            "format": "string"
-                        },
-                        "avatarURL": {
-                            "type": "string",
-                            "description": "User's avatar",
-                            "format": "string"
-                        }
-                    }
-                },
-                "example": {
-                    "id": "606cb7715353805154009464",
-                    "email": "tasasdd@mail.com",
-                    "name": "dadsasdas",
-                    "avatarURL": "https://s.gravatar.com/avatar/84559937425bc8e26c87d1f469a2cfbf?s=250&r=x&d=retro"
-                }
-            },
             "LoginRequest": {
                 "type": "object",
                 "required": [
@@ -381,7 +378,7 @@
                     }
                 }
             },
-            "LoginResponse": {
+            "RegistrationLoginResponse": {
                 "type": "array",
                 "items": {
                     "type": "object",
@@ -646,6 +643,36 @@
                             ]
                         }
                     ]
+                }
+            },
+            "QuotesResponse": {
+                "type": "object",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "_id": {
+                            "type": "string",
+                            "description": "Quote id",
+                            "example": "607487b483bc317aafca18b6"
+                        },
+                        "quote": {
+                            "type": "string",
+                            "description": "quote",
+                            "example": "Quality is free, but only to those who are willing to pay heavily for it."
+                        },
+                        "author": {
+                            "type": "string",
+                            "description": "quote author",
+                            "example": "DeMarco and Lister"
+                        }
+                    }
+                },
+                "example": {
+                    "responseBody": {
+                        "_id": "607487b483bc317aafca18b6",
+                        "quote": "Quality is free, but only to those who are willing to pay heavily for it.",
+                        "author": "DeMarco and Lister"
+                    }
                 }
             }
         },
