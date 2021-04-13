@@ -6,7 +6,7 @@ const httpCode = require('../constants/httpCode');
 const authorizeUser = async (req, res, next) => {
   try {
     const authorizationHeader = req.get('Authorization');
-    const token = authorizationHeader?.replace('Bearer ', '');
+    const token = authorizationHeader.replace('Bearer ', '');
     if (!token) {
       return res.status(401).send({
         message: 'Not authorized',
