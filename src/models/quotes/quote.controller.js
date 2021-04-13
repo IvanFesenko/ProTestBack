@@ -5,10 +5,11 @@ const randomNumber = require('../../helpers/getRandomNumber');
 class QuoteController {
   async getQuotes(req, res, next) {
     try {
-      const quotes = await Quote.find({});
-      const response = quotes[randomNumber(quotes.length)];
+      // const idxArray = await Quote.find({}).select('_id');
 
-      if (!quotes) res.status(httpCode.NOT_FOUND);
+      const response = await Quote.findOne().skip(randomNumber(100));
+
+      if (!response) res.status(httpCode.NOT_FOUND);
 
       res.status(httpCode.OK).json({
         responseBody: response,
