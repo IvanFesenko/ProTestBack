@@ -7,12 +7,12 @@ const {
   technicalAnswerValidateSchema,
 } = require('../../helpers/validateSchemas.js');
 
-technicalDataRouter.get('/technical', technicalDataController.getTests);
-
-technicalDataRouter.post(
-  '/technical',
-  validateAnswer(technicalAnswerValidateSchema),
-  technicalDataController.checkAnswer,
-);
+technicalDataRouter
+  .get('/technical', technicalDataController.getTests)
+  .post(
+    '/technical',
+    validateAnswer(technicalAnswerValidateSchema),
+    technicalDataController.checkAnswer,
+  );
 
 module.exports = technicalDataRouter;

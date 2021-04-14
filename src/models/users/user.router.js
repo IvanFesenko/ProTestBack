@@ -30,4 +30,10 @@ userRouter.get('/auth/google-redirect', userController.googleRedirect);
 
 userRouter.get('/current-user', authorizeUser, userController.currentUser);
 
+userRouter.post(
+  '/change-password',
+  authorizeUser,
+  userController.changePassword,
+);
+
 module.exports = userRouter;
