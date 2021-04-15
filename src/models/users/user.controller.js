@@ -252,6 +252,11 @@ class UsersController {
     const { newPassword, oldPassword } = req.body;
     const { _id, password } = req.user;
 
+    if (newPassword === oldPassword)
+      res.status(httpCode.CONFLICT).json({
+        message: 'passwords must be different ',
+      });
+
     try {
       const passwordCompareResult = await checkPasswordBCrypt(
         oldPassword,
