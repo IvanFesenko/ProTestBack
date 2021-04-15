@@ -253,7 +253,7 @@ class UsersController {
     const { _id, password } = req.user;
 
     if (newPassword === oldPassword)
-      res.status(httpCode.CONFLICT).json({
+      return res.status(httpCode.CONFLICT).json({
         message: 'passwords must be different ',
       });
 
