@@ -96,7 +96,7 @@ class UsersController {
           .send('Authentication is failed');
       }
 
-      const passwordCompareResult = checkPasswordBCrypt(
+      const passwordCompareResult = await checkPasswordBCrypt(
         password,
         user.password,
       );
