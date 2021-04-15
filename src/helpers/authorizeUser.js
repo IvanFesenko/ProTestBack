@@ -24,7 +24,7 @@ const authorizeUser = async (req, res, next) => {
     next();
   } catch (err) {
     return res.status(httpCode.FORBIDDEN).send({
-      message: err.message,
+      message: 'password are different',
     });
   }
 };
